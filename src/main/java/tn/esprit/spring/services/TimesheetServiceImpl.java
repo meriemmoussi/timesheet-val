@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
@@ -107,8 +108,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
-		return null;
-		//return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
+		
+		return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
 	}
 
 	
@@ -116,5 +117,36 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		return null;
 		//return timesheetRepository.getAllEmployeByMission(missionId);
 	}
+	public Timesheet getTimessheetById(int tSId) {
+		if(tSId<0) {
+			l.error("*******Error,Invalide identifier");
+		}
+		else {
+			l.info("*****Succés****"+timesheetRepository.findById(tSId).get());
 
+		}
+		return timesheetRepository.findById(tSId).get();
+	}
+	public void deleteTimeSheet(int id){
+		timesheetRepository.deleteById(id);
+		l.info("********** timesheet supprimé******" );
+
+	}
+	
+	
+	public Mission getMissionById(int id) {
+		if(id<0) {
+			l.error("*******Error,Invalide identifier");
+		}
+		else {
+			l.info("*****Succés****");
+
+		}
+		return missionRepository.findById(id).get();
+	}
+	public void deleteMissionById(int id){
+		missionRepository.deleteById(id);
+		l.info("********** mission supprimé******" );
+
+	}
 }
