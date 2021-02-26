@@ -25,7 +25,7 @@ public class RestControlDepartment {
 	@Autowired
 	IDepartementService idepservice; 
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterDep
+	
 	@PostMapping("/ajouterDep")
 	@ResponseBody
 	public Departement ajouterEmploye(@RequestBody Departement d)
@@ -34,7 +34,7 @@ public class RestControlDepartment {
 		return d;
 	}
 
-	 // URL : http://localhost:8081/SpringMVC/servlet/getAllDepts
+	
 	@GetMapping(value = "/getAllDepts")
     @ResponseBody
 	public List<Departement> getAllDepartments() {

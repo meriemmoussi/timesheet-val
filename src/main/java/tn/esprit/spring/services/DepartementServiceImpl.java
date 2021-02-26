@@ -52,9 +52,8 @@ public class DepartementServiceImpl implements IDepartementService {
 		if(deptRepository.findById(depId).isPresent()){
 			Departement d =deptRepository.findById(depId).get();
 		return d;
-		}else{
-			return null;
 		}
+		return deptRepository.findById(depId).get();
 	}
 	
 	
