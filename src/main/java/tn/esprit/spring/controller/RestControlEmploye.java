@@ -33,8 +33,7 @@ public class RestControlEmploye {
 	ITimesheetService itimesheetservice;
 
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterEmployer
-	//{"nom":"kallel", "prenom":"khaled", "email":"Khaled.kallel@ssiiconsulting.tn", "isActif":true, "role":"INGENIEUR"}
+	
 	
 	@PostMapping("/ajouterEmployer")
 	@ResponseBody
@@ -65,8 +64,7 @@ public class RestControlEmploye {
 		iemployeservice.desaffecterEmployeDuDepartement(employeId, depId);
 	}
 
-	// http://localhost:8081/SpringMVC/servlet/ajouterContrat
-	//{"reference":6,"dateDebut":"2020-03-01","salaire":2000,"typeContrat":"CDD"}
+
 	@PostMapping("/ajouterContrat")
 	@ResponseBody
 	public int ajouterContrat(@RequestBody Contrat contrat) {
