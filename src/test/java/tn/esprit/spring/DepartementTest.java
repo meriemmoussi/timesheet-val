@@ -18,7 +18,6 @@ import tn.esprit.spring.entities.Departement;
 
 import tn.esprit.spring.services.IDepartementService;
 
-import tn.esprit.spring.utils.BaseJUnit49TestCase;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DepartementTest {
