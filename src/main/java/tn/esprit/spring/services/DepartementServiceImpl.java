@@ -45,11 +45,13 @@ public class DepartementServiceImpl implements IDepartementService {
 		}
 		else {
 			if(deptRepository.findById(depId).isPresent()){
-			l.info("*****Le nom du departement est " + deptRepository.findById(depId).get().getName()+ "********");
+				Departement d =deptRepository.findById(depId).get();
+			l.info("*****Le nom du departement est " + d.getName()+ "********");
 			}
 		}
 		if(deptRepository.findById(depId).isPresent()){
-		return deptRepository.findById(depId).get();
+			Departement d =deptRepository.findById(depId).get();
+		return d;
 		}else{
 			return null;
 		}
