@@ -22,7 +22,7 @@ public class DepartementServiceImpl implements IDepartementService {
 		l.info("*******La liste des départements est : ");
 		
 		if (depNames.isEmpty()) {
-			l.error("vide********");
+			l.warn("vide********");
 		} else {
 			l.info(depNames + "*********");
 		}
@@ -41,7 +41,7 @@ public class DepartementServiceImpl implements IDepartementService {
 	@Override
 	public Departement getDepartementById(int depId) {
 		if(depId<0) {
-			l.error("*******Error,Invalide identifier");
+			l.warn("*******Error,Invalide identifier");
 		}
 		else {
 			if(deptRepository.findById(depId).isPresent()){
