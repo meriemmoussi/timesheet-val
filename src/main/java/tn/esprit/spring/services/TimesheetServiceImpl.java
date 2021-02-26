@@ -1,7 +1,7 @@
 package tn.esprit.spring.services;
 
 import java.text.SimpleDateFormat;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tn.esprit.spring.EmployeTests;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
 import tn.esprit.spring.entities.Entreprise;
@@ -25,7 +24,7 @@ import tn.esprit.spring.repository.TimesheetRepository;
 
 @Service
 public class TimesheetServiceImpl implements ITimesheetService {
-	private static final Logger LOG = LogManager.getLogger(EmployeTests.class);
+	
 	
 	
 	private static final Logger l = LogManager.getLogger(TimesheetServiceImpl.class);
@@ -73,17 +72,14 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public void validerTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin, int validateurId) {
-		System.out.println("In valider Timesheet");
 		Employe validateur = employeRepository.findById(validateurId).get();
 		Mission mission = missionRepository.findById(missionId).get();
 		//verifier s'il est un chef de departement (interet des enum)
 		if(!validateur.getRole().equals(Role.CHEF_DEPARTEMENT)){
-			System.out.println("l'employe doit etre chef de departement pour valider une feuille de temps !");
 			l.error("********** employé invalide !!!" );
 
 			return;
 		}
-		//verifier s'il est le chef de departement de la mission en question
 		boolean chefDeLaMission = false;
 		for(Departement dep : validateur.getDepartements()){
 			if(dep.getId() == mission.getDepartement().getId()){
@@ -92,22 +88,26 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			}
 		}
 		if(!chefDeLaMission){
-			LOG.info("l'employe doit etre chef de departement de la mission en question");
+			
 			l.error("********** l'employe doit etre chef de departement de la mission "+mission );
 
 			return;
 		}
+
+		TimesheetPK timesheetPK = new TimesheetPK(missionId, employeId, dateDebut, dateFin);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		
 	}
 
 	
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
-return Collections.emptyList();
-}
+		
+		return timesheetRepository.findAllMissionByEmployeJPQL(employeId);
+	}
 
 	
 	public List<Employe> getAllEmployeByMission(int missionId) {
-		return Collections.emptyList();
+		return new ArrayList<Employe>();
 	}
 	public Timesheet getTimessheetById(int tSId) {
 		if(tSId<0) {
@@ -117,7 +117,8 @@ return Collections.emptyList();
 			l.info("*****Succés****"+timesheetRepository.findById(tSId).get());
 
 		}
-		return timesheetRepository.findById(tSId).get();
+		return timesheetRepository.findById(tSId).isPresent() ? 
+				timesheetRepository.findById(tSId).get() : new Timesheet();
 	}
 	public void deleteTimeSheet(int id){
 		timesheetRepository.deleteById(id);
@@ -134,7 +135,8 @@ return Collections.emptyList();
 			l.info("*****Succés****");
 
 		}
-		return missionRepository.findById(id).get();
+		return missionRepository.findById(id).isPresent() ? 
+				missionRepository.findById(id).get() : new Mission();
 	}
 	public void deleteMissionById(int id){
 		missionRepository.deleteById(id);
