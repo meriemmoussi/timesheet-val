@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Contrat implements Serializable {
 	
+
 	private static final long serialVersionUID = 6191889143079517027L;
 
 	@Id
@@ -92,6 +93,13 @@ public class Contrat implements Serializable {
 	public void setEmploye(Employe employe) {
 		this.employe = employe;
 	}
-	
+	public float getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(float telephone) {
+		this.telephone = telephone;
+	}
+
 	
 }
