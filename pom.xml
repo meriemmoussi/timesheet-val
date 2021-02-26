@@ -56,13 +56,13 @@
 		</dependency>
 
 		<!-- JSF -->
-		
+
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-impl</artifactId>
 			<version>2.2.12</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.myfaces.core</groupId>
 			<artifactId>myfaces-api</artifactId>
@@ -93,6 +93,11 @@
 			<version>6.1</version>
 		</dependency>
 		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+        </dependency>
+		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>1.16.16</version>
@@ -100,8 +105,12 @@
 		<!-- JSF -->
 
 	</dependencies>
-
-
+	<distributionManagement>
+		<repository>
+			<id>maven-releases</id>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
