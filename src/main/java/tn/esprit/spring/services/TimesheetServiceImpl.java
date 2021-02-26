@@ -1,6 +1,7 @@
 package tn.esprit.spring.services;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -71,17 +72,14 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public void validerTimesheet(int missionId, int employeId, Date dateDebut, Date dateFin, int validateurId) {
-		System.out.println("In valider Timesheet");
 		Employe validateur = employeRepository.findById(validateurId).get();
 		Mission mission = missionRepository.findById(missionId).get();
 		//verifier s'il est un chef de departement (interet des enum)
 		if(!validateur.getRole().equals(Role.CHEF_DEPARTEMENT)){
-			System.out.println("l'employe doit etre chef de departement pour valider une feuille de temps !");
 			l.error("********** employé invalide !!!" );
 
 			return;
 		}
-		//verifier s'il est le chef de departement de la mission en question
 		boolean chefDeLaMission = false;
 		for(Departement dep : validateur.getDepartements()){
 			if(dep.getId() == mission.getDepartement().getId()){
@@ -90,19 +88,14 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			}
 		}
 		if(!chefDeLaMission){
-			System.out.println("l'employe doit etre chef de departement de la mission en question");
+			
 			l.error("********** l'employe doit etre chef de departement de la mission "+mission );
 
 			return;
 		}
-//
+
 		TimesheetPK timesheetPK = new TimesheetPK(missionId, employeId, dateDebut, dateFin);
-		//Timesheet timesheet =timesheetRepository.findBytimesheetPK(timesheetPK);
-		//timesheet.setValide(true);
-		
-		//Comment Lire une date de la base de données
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		//System.out.println("dateDebut : " + dateFormat.format(timesheet.getTimesheetPK().getDateDebut()));
 		
 	}
 
@@ -114,8 +107,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public List<Employe> getAllEmployeByMission(int missionId) {
-		return null;
-		//return timesheetRepository.getAllEmployeByMission(missionId);
+		return new ArrayList<Employe>();
 	}
 	public Timesheet getTimessheetById(int tSId) {
 		if(tSId<0) {
@@ -125,7 +117,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			l.info("*****Succés****"+timesheetRepository.findById(tSId).get());
 
 		}
-		return timesheetRepository.findById(tSId).get();
+		return timesheetRepository.findById(tSId).isPresent() ? 
+				timesheetRepository.findById(tSId).get() : new Timesheet();
 	}
 	public void deleteTimeSheet(int id){
 		timesheetRepository.deleteById(id);
@@ -142,7 +135,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 			l.info("*****Succés****");
 
 		}
-		return missionRepository.findById(id).get();
+		return missionRepository.findById(id).isPresent() ? 
+				missionRepository.findById(id).get() : new Mission();
 	}
 	public void deleteMissionById(int id){
 		missionRepository.deleteById(id);
