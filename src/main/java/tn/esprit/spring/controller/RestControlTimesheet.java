@@ -28,9 +28,7 @@ public class RestControlTimesheet {
 	@Autowired
 	ITimesheetService itimesheetservice;
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterMission
-	//{"id":4,"name":"mamission", "description":"c ma mission"}
-	@PostMapping("/ajouterMission")
+		@PostMapping("/ajouterMission")
 	@ResponseBody
 	public int ajouterMission(@RequestBody Mission mission) {
 		itimesheetservice.ajouterMission(mission);
@@ -43,9 +41,7 @@ public class RestControlTimesheet {
 		itimesheetservice.affecterMissionADepartement(missionId, depId);
 	}
 	
-	// http://localhost:8081/SpringMVC/servlet/ajouterTimesheet
-    //{"missionId":1,"employeId":2,"dateDebut":"2020-03-01","dateFin":"2021-03-01"}
-	
+		
 	@PostMapping("/ajouterTimesheet/idmission/idemp/dated/datef")
 	@ResponseBody
 	public void ajouterTimesheet(@PathVariable("idmission") int missionId, @PathVariable("idemp") int employeId, @PathVariable("dated") Date dateDebut,@PathVariable("datef") Date dateFin) {

@@ -54,7 +54,6 @@ public class EmployeServiceImpl implements IEmployeService {
 	public void affecterEmployeADepartement(int employeId, int depId) { 
 		Departement d = deptRepoistory.findById(depId).get();
 		Employe e = employeRepository.findById(employeId).get();
-		// Employe et le fils (contient le mappedBy) donc : 
 		d.getEmployes().add(e);
 	}
 	
@@ -67,13 +66,7 @@ public class EmployeServiceImpl implements IEmployeService {
 		dep.getEmployes().remove(empl);
 		
 
-//		int employeNb = dep.getEmployes().size();
-//		for(int index = 0; index < employeNb; index++){
-//			if(dep.getEmployes().get(index).getId() == employeId){
-//				dep.getEmployes().remove(index);
-//				break;//a revoir
-//			}
-//		}
+	
 		
 	} 
 	
@@ -90,9 +83,6 @@ public class EmployeServiceImpl implements IEmployeService {
 
 		contratManagedEntity.setEmploye(employeManagedEntity);
 
-		// faux: 
-		//employeManagedEntity.setContrat(contratManagedEntity);
-
 	}
 
 	public String getEmployePrenomById(int employeId) {
@@ -104,9 +94,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	{
 		Employe employe = employeRepository.findById(employeId).get();
 
-		//Desaffecter l'employe de tous les departements
-		//c'est le bout master qui permet de mettre a jour
-		//la table d'association
+	
 		for(Departement dep : employe.getDepartements()){
 			dep.getEmployes().remove(employe);
 		}
@@ -146,8 +134,7 @@ public class EmployeServiceImpl implements IEmployeService {
 	}
 
 	public Double getSalaireMoyenByDepartementId(int departementId) {
-	//	return employeRepository.getSalaireMoyenByDepartementId(departementId);
-		return null;
+		return 0.0;
 	}
 
 	public List<Timesheet> getTimesheetsByMissionAndDate(Employe employe, Mission mission, Date dateDebut,
