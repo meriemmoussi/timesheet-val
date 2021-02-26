@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.spring.EmployeTests;
 import tn.esprit.spring.entities.Departement;
 import tn.esprit.spring.entities.Employe;
+import tn.esprit.spring.entities.Entreprise;
 import tn.esprit.spring.entities.Mission;
 import tn.esprit.spring.entities.Role;
 import tn.esprit.spring.entities.Timesheet;
@@ -25,6 +26,9 @@ import tn.esprit.spring.repository.TimesheetRepository;
 @Service
 public class TimesheetServiceImpl implements ITimesheetService {
 	private static final Logger LOG = LogManager.getLogger(EmployeTests.class);
+	
+	
+	private static final Logger l = LogManager.getLogger(TimesheetServiceImpl.class);
 
 
 	@Autowired
@@ -38,6 +42,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 	
 	public int ajouterMission(Mission mission) {
 		missionRepository.save(mission);
+		l.info("********** mission ajoutée  " + mission);
 		return mission.getId();
 	}
     
@@ -46,6 +51,7 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		Departement dep = deptRepoistory.findById(depId).get();
 		mission.setDepartement(dep);
 		missionRepository.save(mission);
+		l.info("********** mission "+mission+" affectée à "+dep );
 		
 	}
 
@@ -60,6 +66,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		timesheet.setTimesheetPK(timesheetPK);
 		timesheet.setValide(false); //par defaut non valide
 		timesheetRepository.save(timesheet);
+		l.info("********** timesheet ajouté "+timesheet );
+
 		
 	}
 
@@ -71,6 +79,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		//verifier s'il est un chef de departement (interet des enum)
 		if(!validateur.getRole().equals(Role.CHEF_DEPARTEMENT)){
 			System.out.println("l'employe doit etre chef de departement pour valider une feuille de temps !");
+			l.error("********** employé invalide !!!" );
+
 			return;
 		}
 		//verifier s'il est le chef de departement de la mission en question
@@ -83,6 +93,8 @@ public class TimesheetServiceImpl implements ITimesheetService {
 		}
 		if(!chefDeLaMission){
 			LOG.info("l'employe doit etre chef de departement de la mission en question");
+			l.error("********** l'employe doit etre chef de departement de la mission "+mission );
+
 			return;
 		}
 		
@@ -90,12 +102,43 @@ public class TimesheetServiceImpl implements ITimesheetService {
 
 	
 	public List<Mission> findAllMissionByEmployeJPQL(int employeId) {
-		return Collections.emptyList();
-	}
+return Collections.emptyList();
+}
 
 	
 	public List<Employe> getAllEmployeByMission(int missionId) {
 		return Collections.emptyList();
 	}
+	public Timesheet getTimessheetById(int tSId) {
+		if(tSId<0) {
+			l.error("*******Error,Invalide identifier");
+		}
+		else {
+			l.info("*****Succés****"+timesheetRepository.findById(tSId).get());
 
+		}
+		return timesheetRepository.findById(tSId).get();
+	}
+	public void deleteTimeSheet(int id){
+		timesheetRepository.deleteById(id);
+		l.info("********** timesheet supprimé******" );
+
+	}
+	
+	
+	public Mission getMissionById(int id) {
+		if(id<0) {
+			l.error("*******Error,Invalide identifier");
+		}
+		else {
+			l.info("*****Succés****");
+
+		}
+		return missionRepository.findById(id).get();
+	}
+	public void deleteMissionById(int id){
+		missionRepository.deleteById(id);
+		l.info("********** mission supprimé******" );
+
+	}
 }
