@@ -44,10 +44,15 @@ public class DepartementServiceImpl implements IDepartementService {
 			l.error("*******Error,Invalide identifier");
 		}
 		else {
+			if(deptRepository.findById(depId).isPresent()){
 			l.info("*****Le nom du departement est " + deptRepository.findById(depId).get().getName()+ "********");
-
+			}
 		}
+		if(deptRepository.findById(depId).isPresent()){
 		return deptRepository.findById(depId).get();
+		}else{
+			return null;
+		}
 	}
 	
 	
